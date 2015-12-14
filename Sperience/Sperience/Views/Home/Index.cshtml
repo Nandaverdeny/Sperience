@@ -1,0 +1,160 @@
+﻿
+@{
+    ViewBag.Title = "Home";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<div class="ui-layout-center">
+    <div class="jsc-rightbar-content jsc-sidebar-content jsc-sidebar-pulled" style="height:100%; margin-right:-20px; overflow:hidden;">
+
+        <nav class="navsidebar" style="float:left;">
+            <a href="#" class="icon-menu link-menu jsc-sidebar-trigger" style="font-size:medium;">
+            </a>
+        </nav>
+
+        <div class="body-content">
+            <div id="filler"></div>
+            <div id="container">
+                @foreach (var stage in ViewBag.result)
+                {
+                    <div ondrop="drop(event, '@stage.StagesModel.Description')" ondragover="allowDrop(event)" style="width:200px; float:left;height:380px;background:#e1dfdf;margin:2px;overflow: auto;">
+                        <div class="column-title">
+                            @if (stage.StagesModel.Description == "Lead")
+                            {
+                                <span onclick="add()" class="glyphicon glyphicon-plus-sign" style="float:left; margin:8px; font-size:large; color:lightgreen;"></span>
+                            }
+                            <h4>@stage.StagesModel.Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@stage.StagesModel.PercentageFactor%&nbsp;</h4>
+                        </div>
+                        <div>
+                            @foreach (var subject in stage.SubjectsModel)
+                            {
+                                <div id="@subject.Id" class="column" draggable="true" ondragstart="drag(event);" ondblclick="add()">
+                                    <header>@subject.AccountId</header>
+                                    <p>@subject.SubjectTitle</p>
+                                    <p>
+                                        @if (stage.StagesModel.Description == "Lead")
+                                        {
+                                            var text = subject.SubjectTypeId;
+                                            @text
+                                        }
+                                        @if (stage.StagesModel.Description == "Qualified")
+                                        {
+                                            var text = "Est:$" + subject.RevenueEstimate + " Closing: " + subject.ClosingDate.ToShortDateString();
+                                            @text
+                                        }
+                                    </p>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <nav class="navsidebar" style="float:right;">
+            <a href="#" class="icon-menu link-menu jsc-rightbar-trigger" style="font-size:medium;">
+            </a>
+        </nav>
+    </div>
+
+    <div class="jsc-rightbar" id="jsi-nav-right" data-sidebar-options="" style="width:220px;">
+        <div style="width:200px; float:right;height:380px;background:#00ffff;margin:2px;overflow: auto;">
+            Right
+            @for (var q = 0; q < 10; q++)
+            {<div>qwe</div>
+            }
+        </div>
+    </div>
+    <div class="jsc-sidebar" id="jsi-nav" data-sidebar-options="">
+        <div style="width:200px; float:left;height:380px;background:#f6f6f6;margin:2px;">
+            <div>
+                <h4 class="text-center">Accounts</h4>
+            </div>
+            <div id="columns" style=" width:inherit; float:left; height:340px;background:#f6f6f6;overflow: auto;">
+                <div id="drag1" class="column" draggable="true" ondragstart="drag(event)" ondblclick="add()"><header>Wayne Enterprise</header><p>Sales Revenue: $<br />Outstanding Balance: </p> </div>
+                <div id="drag2" class="column" draggable="true" ondragstart="drag(event)" ondblclick="add()"><header>Huckleberry Finn</header><p>Sales Revenue: $<br />Outstanding Balance: </p> </div>
+                <div id="drag3" class="column" draggable="true" ondragstart="drag(event)" ondblclick="add()"><header>Benjamin Gates</header><p>Sales Revenue: $<br />Outstanding Balance: </p> </div>
+                <div id="drag4" class="column" draggable="true" ondragstart="drag(event)" ondblclick="add()"><header>Stark Industries</header><p>Sales Revenue: $<br />Outstanding Balance: </p> </div>
+                <div id="drag5" class="column" draggable="true" ondragstart="drag(event)" ondblclick="add()"><header>Wayne Enterprise</header><p>Sales Revenue: $<br />Outstanding Balance: </p> </div>
+                <div id="drag6" class="column" draggable="true" ondragstart="drag(event)" ondblclick="add()"><header>Wayne Enterprise</header><p>Sales Revenue: $<br />Outstanding Balance: </p> </div>
+                <div id="drag7" class="column" draggable="true" ondragstart="drag(event)" ondblclick="add()"><header>Wayne Enterprise</header><p>Sales Revenue: $<br />Outstanding Balance: </p> </div>
+                <div id="drag8" class="column" draggable="true" ondragstart="drag(event)" ondblclick="add()"><header>Wayne Enterprise</header><p>Sales Revenue: $<br />Outstanding Balance: </p> </div>
+                <div id="drag9" class="column" draggable="true" ondragstart="drag(event)" ondblclick="add()"><header>Wayne Enterprise</header><p>Sales Revenue: $<br />Outstanding Balance: </p> </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="ui-layout-south">
+    <div style=" float:left; width:70%; height:100%; border-right-width:5px; border-right-color:grey; border-right-style:solid;">
+        <h2>User</h2>
+        <p>Monthly Target: $</p>
+        <p>Monthly Target: $</p>
+    </div>
+
+    <div style="float:right; width:30%; height:100%; padding-left:5px;">
+        <h2>User</h2>
+        <p>Monthly Target: $</p>
+        <p>Monthly Target: $</p>
+    </div>
+
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog" style="width:100%;height:100%;">
+    <div class="modal-dialog" style="width:90%; height:inherit; margin:auto; padding:50px;">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+            </div>
+            <div class="modal-body">
+                <p>Some text in the modal.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="~/Scripts/sidebar.js"></script>
+<script src="~/Scripts/rightbar.js"></script>
+<script>
+            $('#jsi-nav').sidebar({
+                trigger: '.jsc-sidebar-trigger',
+                scrollbarDisplay: true,
+                pullCb: function () { console.log('pull'); },
+                pushCb: function () { console.log('push'); }
+            });
+            $('#api-pull').on('click', function (e) {
+                e.preventDefault();
+                $('#jsi-nav').data('sidebar').push();
+            });
+            $('#api-push').on('click', function (e) {
+                e.preventDefault();
+                $('#jsi-nav').data('sidebar').pull();
+            });
+
+            $('#jsi-nav-right').rightbar({
+                trigger: '.jsc-rightbar-trigger',
+                scrollbarDisplay: true,
+                pullCb: function () { console.log('pull'); },
+                pushCb: function () { console.log('push'); }
+            });
+            $('#api-pull').on('click', function (e) {
+                e.preventDefault();
+                $('#jsi-nav-right').data('rightbar').push();
+            });
+            $('#api-push').on('click', function (e) {
+                e.preventDefault();
+                $('#jsi-nav-right').data('rightbar').pull();
+            });
+
+</script>
+
+
+
