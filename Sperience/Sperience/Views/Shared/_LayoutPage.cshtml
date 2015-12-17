@@ -15,40 +15,12 @@
     <script src="~/Scripts/jquery-2.1.4.min.js"></script>
     <script src="~/Scripts/jquery-ui-latest.js"></script>
     <script src="~/Scripts/jquery.layout-latest.js"></script>
-
+    <script src="~/Scripts/jquery.serialize-object.js"></script>
     <script>
         $(document).ready(function () {
             $('body').layout({ applyDefaultStyles: true });
         });
-
-        function allowDrop(ev) {
-            ev.preventDefault();
-        }
-
-        function drag(ev) {
-            ev.dataTransfer.setData("text", ev.target.id);
-        }
-
-        function drop(ev,loc) {
-            ev.preventDefault();
-            var data = ev.dataTransfer.getData("text");
-            ev.target.appendChild(document.getElementById(data));
-            alert("Hello! I am moved to " + loc);
-           // $('#myModal').modal('show');
-        }
-
-        function add() {
-            $('#myModal').modal('show');
-        }
     </script>
-    <style>
-    @{var x = 208;
-      var a = x * 5;
-      var u = a + "px";
-    }}
-	#filler { position: absolute; top: 0; left: 0; width: @u; height: 100%; }
-	#container { width: @u; position: absolute; top: 60px; margin-top: -50px; }
-    </style>
 </head>
 
 <body>

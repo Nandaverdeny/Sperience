@@ -3,7 +3,35 @@
     ViewBag.Title = "Home";
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
+<script>
+ function allowDrop(ev) {
+            ev.preventDefault();
+        }
 
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev,loc) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            ev.target.appendChild(document.getElementById(data));
+            //alert("Hello! I am moved to " + loc);
+           $('#Modal').modal('show');
+        }
+
+        function add() {
+            $('#Modal').modal('show');
+        }
+</script>
+<style>
+    @{var x = 208;
+      var a = x * 5;
+      var u = a + "px";
+    }}
+	#filler { position: absolute; top: 0; left: 0; width: @u; height: 100%; }
+	#container { width: @u; position: absolute; top: 60px; margin-top: -50px; }
+</style>
 <div class="ui-layout-center">
     <div class="jsc-rightbar-content jsc-sidebar-content jsc-sidebar-pulled" style="height:100%; margin-right:-20px; overflow:hidden;">
 
@@ -21,9 +49,9 @@
                         <div class="column-title">
                             @if (stage.StagesModel.Description == "Lead")
                             {
-                                <span onclick="add()" class="glyphicon glyphicon-plus-sign" style="float:left; margin:8px; font-size:large; color:lightgreen;"></span>
+                                <span id="add" onclick="add('add')" class="glyphicon glyphicon-plus-sign" style="float:left; margin:8px; font-size:large; color:lightgreen;"></span>
                             }
-                            <h4>@stage.StagesModel.Description&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@stage.StagesModel.PercentageFactor%&nbsp;</h4>
+                            <h4 style="text-align:center;"><span style="float:initial;">@stage.StagesModel.Description</span><span style="float:right; padding-right:5px;">@stage.StagesModel.PercentageFactor.ToString("0.##")%</span></h4>
                         </div>
                         <div>
                             @foreach (var subject in stage.SubjectsModel)
@@ -71,15 +99,11 @@
                 <h4 class="text-center">Accounts</h4>
             </div>
             <div id="columns" style=" width:inherit; float:left; height:340px;background:#f6f6f6;overflow: auto;">
-                <div id="drag1" class="column" draggable="true" ondragstart="drag(event)" ondblclick="add()"><header>Wayne Enterprise</header><p>Sales Revenue: $<br />Outstanding Balance: </p> </div>
-                <div id="drag2" class="column" draggable="true" ondragstart="drag(event)" ondblclick="add()"><header>Huckleberry Finn</header><p>Sales Revenue: $<br />Outstanding Balance: </p> </div>
-                <div id="drag3" class="column" draggable="true" ondragstart="drag(event)" ondblclick="add()"><header>Benjamin Gates</header><p>Sales Revenue: $<br />Outstanding Balance: </p> </div>
-                <div id="drag4" class="column" draggable="true" ondragstart="drag(event)" ondblclick="add()"><header>Stark Industries</header><p>Sales Revenue: $<br />Outstanding Balance: </p> </div>
-                <div id="drag5" class="column" draggable="true" ondragstart="drag(event)" ondblclick="add()"><header>Wayne Enterprise</header><p>Sales Revenue: $<br />Outstanding Balance: </p> </div>
-                <div id="drag6" class="column" draggable="true" ondragstart="drag(event)" ondblclick="add()"><header>Wayne Enterprise</header><p>Sales Revenue: $<br />Outstanding Balance: </p> </div>
-                <div id="drag7" class="column" draggable="true" ondragstart="drag(event)" ondblclick="add()"><header>Wayne Enterprise</header><p>Sales Revenue: $<br />Outstanding Balance: </p> </div>
-                <div id="drag8" class="column" draggable="true" ondragstart="drag(event)" ondblclick="add()"><header>Wayne Enterprise</header><p>Sales Revenue: $<br />Outstanding Balance: </p> </div>
-                <div id="drag9" class="column" draggable="true" ondragstart="drag(event)" ondblclick="add()"><header>Wayne Enterprise</header><p>Sales Revenue: $<br />Outstanding Balance: </p> </div>
+                @foreach (var account in ViewBag.accounts)
+                {
+                    <div id="drag @account.Id" class="column" draggable="true" ondragstart=drag(event) ondblclick=add(drag @account.Id)><header>@account.CustomerName</header><p>Sales Revenue: $ @account.RevenueEstimate<br />Outstanding Balance: @account.BudgetaryAllocationId</p> </div>
+                }
+
             </div>
         </div>
     </div>
@@ -101,7 +125,7 @@
 
 </div>
 <!-- Modal -->
-<div class="modal fade" id="myModal" role="dialog" style="width:100%;height:100%;">
+<div class="modal fade" id="Modal" role="dialog" style="width:100%;height:100%;">
     <div class="modal-dialog" style="width:90%; height:inherit; margin:auto; padding:50px;">
 
         <!-- Modal content-->
@@ -111,7 +135,7 @@
                 <h4 class="modal-title">Modal Header</h4>
             </div>
             <div class="modal-body">
-                <p>Some text in the modal.</p>
+                           
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
